@@ -1,0 +1,21 @@
+language: node_js
+node_js:
+ - 13
+
+services:
+ - docker
+
+install:
+ - echo "Nothing to intsall"
+
+before_script:
+ - echo "No tests"
+
+script:
+ - docker --version # smoke test
+ - docker build -t simple-node .
+ - docker tag simple-node abukavictor/simple-node:latest
+
+after_success:
+ - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+ - docker push abukavictor/simple-node
